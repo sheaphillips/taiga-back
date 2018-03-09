@@ -4,13 +4,16 @@
 # - install some additional dependencies/plugins that we want for our deployment
 # - "overlay" some  deployment-related files that will help us deploy the app in OpenShift/k8s
 
+# copy required additional files to the current working directory
+cp -r /tmp/src/openshift/.s2i/* .
+
 # additional dependencies
 pip install -r requirements.txt
 
 # overlay files
 if [ -d "../overlay" ]; then
     echo "Copying overlay files into place..."
-    cp -r ../overlay/* ../../
+    cp -r ./overlay/* ../../
 fi
 
 echo "Running default assemble script..."
