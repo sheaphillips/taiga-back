@@ -11,9 +11,10 @@ cp -r /tmp/src/openshift/.s2i/* .
 pip install -r requirements.txt
 
 # overlay files
-if [ -d "../overlay" ]; then
+if [ -d "./overlay" ]; then
     echo "Copying overlay files into place..."
     cp -r ./overlay/* ../../
+    find ../../
 fi
 
 echo "Running default assemble script..."
