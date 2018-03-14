@@ -4,14 +4,20 @@
 # - install some additional dependencies/plugins that we want for our deployment
 # - "overlay" some  deployment-related files that will help us deploy the app in OpenShift/k8s
 
-echo "Starting!!!!!!!------------------"
-
+# where are we?
+echo "Current dir $(pwd)"
 
 # what's in /tmp/src?
+echo "Contents of /tmp/src"
 ls -la /tmp/src
 
 # copy required additional files to the current working directory
-cp -r /tmp/src/openshift/.s2i/* .
+cp -r /tmp/src/openshift/.s2i/* /tmp/src
+
+# what's in /tmp/src?
+echo "Contents of /tmp/src"
+ls -la /tmp/src
+
 
 # additional dependencies
 pip install -r requirements.txt
