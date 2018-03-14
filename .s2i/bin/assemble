@@ -3,24 +3,24 @@
 # this assemble script will run "around" the standard python/django s2i assemble script to do a couple of things:
 # - install some additional dependencies/plugins that we want for our deployment
 # - "overlay" some  deployment-related files that will help us deploy the app in OpenShift/k8s
-
-# where are we?
-echo "Current dir $(pwd)"
-
-# what's in /tmp/src?
-echo "Contents of /tmp/src"
-ls -la /tmp/src
+#
+## where are we?
+#echo "Current dir $(pwd)"
+#
+## what's in /tmp/src?
+#echo "Contents of /tmp/src"
+#ls -la /tmp/src
 
 # copy required additional files to the current working directory
-cp -r /tmp/src/openshift/.s2i/* /tmp/src
-
-# what's in /tmp/src?
-echo "Contents of /tmp/src"
-ls -la /tmp/src
-
+#cp -r /tmp/src/openshift/.s2i/* .
 
 # additional dependencies
-pip install -r requirements.txt
+if [ -f /tmp/src/openshift/.s2i/requirements.txt ]; then
+    echo "Installing additional python dependencies..."
+    pip install -r requirements.txt
+fi
+
+#todo download release and unzip into /tmp/src
 
 # overlay files
 if [ -d "./overlay" ]; then
