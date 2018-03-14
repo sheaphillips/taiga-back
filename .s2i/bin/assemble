@@ -8,7 +8,7 @@
 ##where are we?
 echo "Current dir is $(pwd)"
 
-find / manage.py -print
+find / -name manage.py -print
 
 ## what's in /tmp/src?
 echo "Contents of /tmp/src"
