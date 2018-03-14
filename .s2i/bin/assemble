@@ -20,7 +20,7 @@ echo "Combining requirements-extra.txt..."
 cat /tmp/src/requirements-extra.txt >> /tmp/src/requirements.txt
 
 echo "Cleaning up some files that will cause problems..."
-rm /tmp/src/.pki
+rm -rf /tmp/src/.pki
 rm /tmp/src/.rnd
 
 echo "Running default assemble script..."
