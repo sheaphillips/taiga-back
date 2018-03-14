@@ -8,8 +8,6 @@
 ##where are we?
 echo "Current dir is $(pwd)"
 
-find / -name manage.py -print
-
 ## what's in /tmp/src?
 echo "Contents of /tmp/src"
 ls -la /tmp/src
@@ -17,6 +15,13 @@ ls -la /tmp/src
 ## what's in /tmp/src?
 echo "Contents of /opt/app-root/src"
 ls -la /opt/app-root/src
+
+echo "Combining requirements-extra.txt..."
+cat requirements-extra.txt >> requirements.txt
+
+echo "Cleaning up some files that will cause problems..."
+rm ./.pki
+rm ./.rnd
 
 echo "Running default assemble script..."
 

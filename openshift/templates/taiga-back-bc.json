@@ -43,14 +43,30 @@
           "git": {
             "uri": "${GIT_URL}",
             "ref": "${GIT_REF}"
-          }
+          },
+          "images": [
+            {
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "taiga-back-upstream:latest"
+              },
+              "paths": [
+                {
+                  "sourcePath": "/opt/app-root/src/.",
+                  "destinationDir": "."
+                }
+              ]
+            }
+
+          ]
         },
         "strategy": {
           "type": "Source",
           "sourceStrategy": {
             "from": {
               "kind": "ImageStreamTag",
-              "name": "taiga-back-upstream:latest"
+              "namespace": "openshift",
+              "name": "python:3.5"
             },
             "env": [
               {
