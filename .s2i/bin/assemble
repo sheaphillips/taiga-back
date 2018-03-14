@@ -5,6 +5,11 @@
 # - "overlay" some  deployment-related files that will help us deploy the app in OpenShift/k8s
 #
 
+##where are we?
+echo "Current dir is $(pwd)"
+
+find / manage.py -print
+
 ## what's in /tmp/src?
 echo "Contents of /tmp/src"
 ls -la /tmp/src
