@@ -13,7 +13,9 @@ pip install -r requirements.txt
 # overlay files
 if [ -d "./overlay" ]; then
     echo "Copying overlay files into place..."
-    cp -r ./overlay/* ../../
+    cp -R ./overlay/settings/* ../../settings
+    cp -R ./overlay/gunicorn_config.py ../../
+    cp -R ./overlay/wsgi.py ../../
     find ../../
 fi
 
