@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "tagia-back-build",
+    "name": "taiga-back-build",
     "creationTimestamp": null
   },
   "objects": [
@@ -31,7 +31,13 @@
           },
           {
             "type": "ImageChange",
-            "imageChange": {}
+            "imageChangeParams": {
+              "automatic": true,
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "taiga-back-upstream:latest"
+              }
+            }
           },
           {
             "type": "ConfigChange"
@@ -87,13 +93,7 @@
             "memory": "4Gi"
           }
         },
-        "postCommit": {
-          "script": "./manage.py test"
-        },
         "nodeSelector": null
-      },
-      "status": {
-        "lastVersion": 0
       }
     },
     {
@@ -109,6 +109,82 @@
         },
         "annotations": {
           "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "taiga-back-upstream",
+        "labels": {
+          "app": "taiga-back-upstream",
+          "template": "taiga-back-build"
+        },
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "runPolicy": "Serial",
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${GIT_UPSTREAM_URL}",
+            "ref": "${GIT_UPSTREAM_REF}"
+          }
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "openshift",
+              "name": "python:3.5"
+            },
+            "env": [
+              {
+                "name": "PIP_INDEX_URL"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "taiga-back-upstream:latest"
+          }
+        },
+        "resources": {
+          "limits": {
+            "cpu": "4",
+            "memory": "4Gi"
+          }
+        },
+        "postCommit": {
+          "script": "./manage.py test"
+        },
+        "nodeSelector": null
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "taiga-back-upstream",
+        "generation": 1,
+        "creationTimestamp": null,
+        "labels": {
+          "app": "taiga-back-upstream",
+          "template": "taiga-back-upstream"
+        },
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
         }
       }
     }
@@ -133,6 +209,16 @@
       "name": "GIT_REF",
       "required": true,
       "value": "refs/heads/v3.1.1"
+    },
+    {
+      "name": "GIT_UPSTREAM_RL",
+      "required": true,
+      "value": "https://github.com/taigaio/taiga-back.git"
+    },
+    {
+      "name": "GIT_UPSTREAM_REF",
+      "required": true,
+      "value": "3.2.2"
     }
 
   ]
